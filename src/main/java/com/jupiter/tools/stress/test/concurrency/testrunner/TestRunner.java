@@ -1,6 +1,7 @@
 package com.jupiter.tools.stress.test.concurrency.testrunner;
 
 import com.jupiter.tools.stress.test.concurrency.CallableVoid;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,7 @@ public interface TestRunner {
      *
      * @param testCase function with a test-case
      * @param settings needed settings (concurrency, iterations count, e.t.c)
+     *
      * @return result of execution a test-case in concurrent mode.
      */
     TestRunnerResult run(CallableVoid testCase, TestRunnerSettings settings);
@@ -34,6 +36,7 @@ public interface TestRunner {
      *
      * @param testCase test-case
      * @param errors   list to store collection of errors (if they happened while test running)
+     *
      * @return result of execution the test-case
      */
     default OneIterationTestResult executeOneIterationResult(CallableVoid testCase,
@@ -41,9 +44,9 @@ public interface TestRunner {
         try {
             testCase.call();
             return OneIterationTestResult.OK;
-        }
-        catch (Throwable t) {
-            t.printStackTrace();
+        } catch (Throwable t) {
+            LoggerFactory.getLogger("stress-test:")
+                         .error("error while execute one iteration", t);
             errors.add(t);
             return OneIterationTestResult.FAIL;
         }

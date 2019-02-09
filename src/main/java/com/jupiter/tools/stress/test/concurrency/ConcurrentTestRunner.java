@@ -90,11 +90,6 @@ public class ConcurrentTestRunner {
      * @param testCase method that need to run concurrently
      */
     public void run(CallableVoid testCase) {
-        // Arrange
-        TestRunnerSettings settings = TestRunnerSettings.builder()
-                                                        .iterationCount(this.settings.getIterationCount())
-                                                        .threadCount(this.settings.getThreadCount())
-                                                        .build();
         // Act
         TestRunnerResult result = testRunnerFactory.get(this.mode)
                                                    .run(testCase, settings);
@@ -107,5 +102,8 @@ public class ConcurrentTestRunner {
         static final int DEFAULT_ITERATIONS = 10;
         static final int DEFAULT_THREADS = 4;
         static final ExecutionMode DEFAULT_MODE = ExecutionMode.PARALLEL_STREAM_MODE;
+
+        private DefaultSettings() {
+        }
     }
 }
