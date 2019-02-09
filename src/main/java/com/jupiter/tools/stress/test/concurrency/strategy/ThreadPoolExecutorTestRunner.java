@@ -6,6 +6,8 @@ import com.jupiter.tools.stress.test.concurrency.testrunner.TestRunner;
 import com.jupiter.tools.stress.test.concurrency.testrunner.TestRunnerResult;
 import com.jupiter.tools.stress.test.concurrency.testrunner.TestRunnerSettings;
 import org.awaitility.Awaitility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
  * @author Korovin Anatoliy
  */
 public class ThreadPoolExecutorTestRunner implements TestRunner {
+
+    private Logger log = LoggerFactory.getLogger("stress-test:");
 
     @Override
     public TestRunnerResult run(CallableVoid testCase, TestRunnerSettings settings) {
@@ -38,27 +42,28 @@ public class ThreadPoolExecutorTestRunner implements TestRunner {
                   .until(() -> futureList.stream().allMatch(Future::isDone));
 
         List<OneIterationTestResult> results = futureList.stream()
-                                                         .map(f -> {
-                                                             try {
-                                                                 return f.get();
-                                                             } catch (Exception e) {
-                                                                 e.printStackTrace();
-                                                                 return OneIterationTestResult.FAIL;
-                                                             }
-                                                         })
+                                                         .map(this::getFutureTestResult)
                                                          .collect(Collectors.toList());
-
+        
         return new TestRunnerResult(errors, results);
+    }
+
+    private OneIterationTestResult getFutureTestResult(Future<OneIterationTestResult> f) {
+        try {
+            return f.get();
+        } catch (Exception e) {
+            log.error("get a result of the iteration failed: ", e);
+            return OneIterationTestResult.FAIL;
+        }
     }
 
     private ThreadPoolExecutor initThreadPool(int threadCount) {
 
         BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(threadCount,
-                                                             Integer.MAX_VALUE,
-                                                             60,
-                                                             TimeUnit.SECONDS,
-                                                             queue);
-        return executor;
+        return new ThreadPoolExecutor(threadCount,
+                                      Integer.MAX_VALUE,
+                                      60,
+                                      TimeUnit.SECONDS,
+                                      queue);
     }
 }
