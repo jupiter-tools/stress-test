@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -44,11 +46,11 @@ class StressTestRunnerTest {
             StressTestRunner.test()
                             .iterations(ITERATIONS)
                             .run(() -> {
-                                    int expected = value.getValue() + 1;
-                                    value.increment();
-                                    // Assert
-                                    assertThat(value.getValue()).isEqualTo(expected);
-                                });
+                                int expected = value.getValue() + 1;
+                                value.increment();
+                                // Assert
+                                assertThat(value.getValue()).isEqualTo(expected);
+                            });
         });
         // Assert
         assertThat(value.getValue()).isNotEqualTo(ITERATIONS);
@@ -63,10 +65,10 @@ class StressTestRunnerTest {
         StressTestRunner.test()
                         .iterations(ITERATIONS)
                         .run(() -> {
-                                synchronized (this) {
-                                    value.increment();
-                                }
-                            });
+                            synchronized (this) {
+                                value.increment();
+                            }
+                        });
         // Asserts
         assertThat(value.getValue()).isEqualTo(ITERATIONS);
     }
@@ -79,5 +81,67 @@ class StressTestRunnerTest {
                         .threads(THREADS)
                         .iterations(ITERATIONS)
                         .run(() -> System.out.println(Thread.currentThread().getName()));
+    }
+
+    @Test
+    void testTimeoutExecutorMode() {
+
+        StressTestRunner.test()
+                        .iterations(1)
+                        .threads(1)
+                        .mode(ExecutionMode.EXECUTOR_MODE)
+                        .timeout(5, TimeUnit.SECONDS)
+                        .run(() -> {
+                            System.out.println("RUN");
+                            Thread.sleep(1000);
+                        });
+    }
+
+    @Test
+    void testTimeoutExecutorModeError() {
+
+        Assertions.assertThrows(Exception.class, () -> {
+
+            StressTestRunner.test()
+                            .iterations(1)
+                            .threads(1)
+                            .mode(ExecutionMode.EXECUTOR_MODE)
+                            .timeout(1, TimeUnit.SECONDS)
+                            .run(() -> {
+                                System.out.println("RUN");
+                                Thread.sleep(2000);
+                            });
+        });
+    }
+
+    @Test
+    void testTimeoutParallelMode() {
+
+        StressTestRunner.test()
+                        .iterations(1)
+                        .threads(1)
+                        .mode(ExecutionMode.PARALLEL_STREAM_MODE)
+                        .timeout(5, TimeUnit.SECONDS)
+                        .run(() -> {
+                            System.out.println("RUN");
+                            Thread.sleep(1000);
+                        });
+    }
+
+    @Test
+    void testTimeoutParallelModeError() {
+
+        Assertions.assertThrows(Exception.class,
+                                () -> {
+                                    StressTestRunner.test()
+                                                    .iterations(10)
+                                                    .threads(1)
+                                                    .mode(ExecutionMode.PARALLEL_STREAM_MODE)
+                                                    .timeout(1, TimeUnit.SECONDS)
+                                                    .run(() -> {
+                                                        System.out.println("RUN");
+                                                        Thread.sleep(1000);
+                                                    });
+                                });
     }
 }

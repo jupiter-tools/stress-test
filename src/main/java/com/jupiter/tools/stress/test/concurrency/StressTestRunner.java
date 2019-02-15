@@ -1,6 +1,7 @@
 package com.jupiter.tools.stress.test.concurrency;
 
 import com.jupiter.tools.stress.test.concurrency.strategy.TestRunnerFactory;
+import com.jupiter.tools.stress.test.concurrency.testrunner.Duration;
 import com.jupiter.tools.stress.test.concurrency.testrunner.OneIterationTestResult;
 import com.jupiter.tools.stress.test.concurrency.testrunner.TestRunnerResult;
 import com.jupiter.tools.stress.test.concurrency.testrunner.TestRunnerSettings;
@@ -8,6 +9,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Assertions;
+
+import java.util.concurrent.TimeUnit;
 
 import static com.jupiter.tools.stress.test.concurrency.StressTestRunner.DefaultSettings.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +46,10 @@ public class StressTestRunner {
 
     private StressTestRunner(TestRunnerFactory factory) {
         this.testRunnerFactory = factory;
-        this.settings = new TestRunnerSettings(DEFAULT_ITERATIONS, DEFAULT_THREADS);
+        this.settings = new TestRunnerSettings(DEFAULT_ITERATIONS,
+                                               DEFAULT_THREADS,
+                                               new Duration(DEFAULT_TIMEOUT_DURATION,
+                                                            DEFAULT_TIMEOUT_UNIT));
         this.mode = DEFAULT_MODE;
     }
 
@@ -85,6 +91,17 @@ public class StressTestRunner {
     }
 
     /**
+     * Set a time limit for test execution
+     *
+     * @param duration after this interval test will fail if not complete
+     * @param unit     measure unit for timeout
+     */
+    public StressTestRunner timeout(int duration, TimeUnit unit) {
+        this.settings.setTimeout(new Duration(duration, unit));
+        return this;
+    }
+
+    /**
      * Run the test case method with selected execution mode
      *
      * @param testCase method that need to run concurrently
@@ -102,6 +119,8 @@ public class StressTestRunner {
         static final int DEFAULT_ITERATIONS = 10;
         static final int DEFAULT_THREADS = 4;
         static final ExecutionMode DEFAULT_MODE = ExecutionMode.PARALLEL_STREAM_MODE;
+        static final long DEFAULT_TIMEOUT_DURATION = 100;
+        static final TimeUnit DEFAULT_TIMEOUT_UNIT = TimeUnit.SECONDS;
 
         private DefaultSettings() {
         }

@@ -24,4 +24,9 @@ public class TestRunnerSettings {
      * count of available threads
      */
     private int threadCount;
+
+    /**
+     * time limit to test execution
+     */
+    private Duration timeout;
 }

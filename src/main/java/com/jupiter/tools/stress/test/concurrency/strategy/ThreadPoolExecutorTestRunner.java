@@ -38,13 +38,14 @@ public class ThreadPoolExecutorTestRunner implements TestRunner {
         }
 
         Awaitility.await()
-                  .atMost(10, TimeUnit.SECONDS)
+                  .atMost(settings.getTimeout().getDuration(),
+                          settings.getTimeout().getTimeUnit())
                   .until(() -> futureList.stream().allMatch(Future::isDone));
 
         List<OneIterationTestResult> results = futureList.stream()
                                                          .map(this::getFutureTestResult)
                                                          .collect(Collectors.toList());
-        
+
         return new TestRunnerResult(errors, results);
     }
 
