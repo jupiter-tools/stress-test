@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 
-import static com.jupiter.tools.stress.test.concurrency.ConcurrentTestRunner.DefaultSettings.*;
+import static com.jupiter.tools.stress.test.concurrency.StressTestRunner.DefaultSettings.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -29,19 +29,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Both of these implementation provide a configuration to set a number of iterations.
  * The test case method will be called this number of times,
  * and after that check all results, if any iteration throws an error than
- * {@link ConcurrentTestRunner} will throw the {@link AssertionError}.
+ * {@link StressTestRunner} will throw the {@link AssertionError}.
  *
  * @author Korovin Anatoliy
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ConcurrentTestRunner {
+public class StressTestRunner {
 
     private TestRunnerFactory testRunnerFactory;
     private TestRunnerSettings settings;
     private ExecutionMode mode;
 
-    private ConcurrentTestRunner(TestRunnerFactory factory) {
+    private StressTestRunner(TestRunnerFactory factory) {
         this.testRunnerFactory = factory;
         this.settings = new TestRunnerSettings(DEFAULT_ITERATIONS, DEFAULT_THREADS);
         this.mode = DEFAULT_MODE;
@@ -52,24 +52,24 @@ public class ConcurrentTestRunner {
      *
      * @return ConcurrentTestRunner
      */
-    public static ConcurrentTestRunner test() {
-        return new ConcurrentTestRunner(new TestRunnerFactory());
+    public static StressTestRunner test() {
+        return new StressTestRunner(new TestRunnerFactory());
     }
 
     /**
      * Set iteration counter
      */
-    public ConcurrentTestRunner iterations(int iterations) {
+    public StressTestRunner iterations(int iterations) {
         this.settings.setIterationCount(iterations);
         return this;
     }
 
     /**
-     * Set threads count for TASK_EXECUTOR_MODE
+     * Set threads count for EXECUTOR_MODE
      *
      * @param threadsCount count of threads for ThreadPoolTaskExecutor
      */
-    public ConcurrentTestRunner threads(int threadsCount) {
+    public StressTestRunner threads(int threadsCount) {
         this.settings.setThreadCount(threadsCount);
         return this;
     }
@@ -79,7 +79,7 @@ public class ConcurrentTestRunner {
      *
      * @param mode ExecutionMode (by stream().parallel() or by ThreadPoolTaskExecutor)
      */
-    public ConcurrentTestRunner mode(ExecutionMode mode) {
+    public StressTestRunner mode(ExecutionMode mode) {
         this.mode = mode;
         return this;
     }

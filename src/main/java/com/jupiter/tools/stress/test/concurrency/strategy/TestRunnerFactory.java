@@ -18,7 +18,7 @@ public class TestRunnerFactory {
         switch (mode) {
             case PARALLEL_STREAM_MODE:
                 return new ParallelStreamTestRunner();
-            case TASK_EXECUTOR_MODE:
+            case EXECUTOR_MODE:
                 return new ThreadPoolExecutorTestRunner();
             default:
                 throw new RuntimeException("Not found TestRunner for ["+mode+"] execution mode");

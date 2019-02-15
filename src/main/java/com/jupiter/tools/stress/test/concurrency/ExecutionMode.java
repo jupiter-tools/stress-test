@@ -17,5 +17,5 @@ public enum ExecutionMode {
      * use a {@link org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor} to run
      * a test case in concurrent mode
      */
-    TASK_EXECUTOR_MODE
+    EXECUTOR_MODE
 }

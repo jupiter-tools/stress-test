@@ -23,7 +23,7 @@ public class ParallelStreamTestRunner implements TestRunner {
     @SuppressWarnings("Duplicates")
     @Override
     public TestRunnerResult run(CallableVoid testCase, TestRunnerSettings settings) {
-        // Arrange
+
         List<Throwable> errors = initEmptyErrorList();
 
         List<OneIterationTestResult> results =

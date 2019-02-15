@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Korovin Anatoliy
  */
-class ConcurrentTestRunnerTest {
+class StressTestRunnerTest {
 
     private static final int ITERATIONS = 100000;
     private static final int THREADS = 32;
@@ -24,11 +24,11 @@ class ConcurrentTestRunnerTest {
         // Arrange
         NonAtomicInt value = new NonAtomicInt(0);
         // Act
-        ConcurrentTestRunner.test()
-                            .threads(THREADS)
-                            .mode(ExecutionMode.TASK_EXECUTOR_MODE)
-                            .iterations(ITERATIONS)
-                            .run(value::increment);
+        StressTestRunner.test()
+                        .threads(THREADS)
+                        .mode(ExecutionMode.EXECUTOR_MODE)
+                        .iterations(ITERATIONS)
+                        .run(value::increment);
         // Asserts
         assertThat(value.getValue()).isNotEqualTo(ITERATIONS);
     }
@@ -41,9 +41,9 @@ class ConcurrentTestRunnerTest {
 
         Error error = Assertions.assertThrows(Error.class, () -> {
             // Act
-            ConcurrentTestRunner.test()
-                                .iterations(ITERATIONS)
-                                .run(() -> {
+            StressTestRunner.test()
+                            .iterations(ITERATIONS)
+                            .run(() -> {
                                     int expected = value.getValue() + 1;
                                     value.increment();
                                     // Assert
@@ -60,9 +60,9 @@ class ConcurrentTestRunnerTest {
         // Arrange
         NonAtomicInt value = new NonAtomicInt(0);
         // Act
-        ConcurrentTestRunner.test()
-                            .iterations(ITERATIONS)
-                            .run(() -> {
+        StressTestRunner.test()
+                        .iterations(ITERATIONS)
+                        .run(() -> {
                                 synchronized (this) {
                                     value.increment();
                                 }
@@ -74,10 +74,10 @@ class ConcurrentTestRunnerTest {
     @Test
     @Disabled("only to debug")
     void thr() {
-        ConcurrentTestRunner.test()
-                            .mode(ExecutionMode.TASK_EXECUTOR_MODE)
-                            .threads(THREADS)
-                            .iterations(ITERATIONS)
-                            .run(() -> System.out.println(Thread.currentThread().getName()));
+        StressTestRunner.test()
+                        .mode(ExecutionMode.EXECUTOR_MODE)
+                        .threads(THREADS)
+                        .iterations(ITERATIONS)
+                        .run(() -> System.out.println(Thread.currentThread().getName()));
     }
 }
