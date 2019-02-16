@@ -1,0 +1,31 @@
+@startuml
+
+class TaskController {
+    TaskDto createTask(String title);
+    TaskDto createSubTask(UUID parentTaskId, String title);
+}
+
+interface TaskService
+TaskController --> TaskService
+TaskService ..> Task
+TaskService ..> SubTask
+
+class Task {
+    UUID id;
+    String title;
+}
+
+class SubTask {
+    UUID id;
+    **Task parentTask;**
+    ..
+    String title;
+    **int weight;**
+}
+
+Note right : @UniqueConstraint("parent_task_id", "weight")
+
+Task <-- "*" SubTask
+
+
+@enduml
