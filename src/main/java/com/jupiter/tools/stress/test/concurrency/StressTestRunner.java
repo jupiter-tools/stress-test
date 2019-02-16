@@ -5,11 +5,8 @@ import com.jupiter.tools.stress.test.concurrency.testrunner.Duration;
 import com.jupiter.tools.stress.test.concurrency.testrunner.OneIterationTestResult;
 import com.jupiter.tools.stress.test.concurrency.testrunner.TestRunnerResult;
 import com.jupiter.tools.stress.test.concurrency.testrunner.TestRunnerSettings;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.junit.jupiter.api.Assertions;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.concurrent.TimeUnit;
 
 import static com.jupiter.tools.stress.test.concurrency.StressTestRunner.DefaultSettings.*;
@@ -36,8 +33,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Korovin Anatoliy
  */
-@Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StressTestRunner {
 
     private TestRunnerFactory testRunnerFactory;

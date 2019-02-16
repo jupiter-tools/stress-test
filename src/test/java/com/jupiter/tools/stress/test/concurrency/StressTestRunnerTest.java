@@ -144,4 +144,26 @@ class StressTestRunnerTest {
                                                     });
                                 });
     }
+
+    @Test
+    void failInTestParallelMode() {
+        Assertions.assertThrows(Error.class,
+                                () -> StressTestRunner.test()
+                                                      .mode(ExecutionMode.PARALLEL_STREAM_MODE)
+                                                      .iterations(1)
+                                                      .run(() -> {
+                                                          throw new RuntimeException("oops");
+                                                      }));
+    }
+
+    @Test
+    void failInTestExecutorMode() {
+        Assertions.assertThrows(Error.class,
+                                () -> StressTestRunner.test()
+                                                      .mode(ExecutionMode.EXECUTOR_MODE)
+                                                      .iterations(1)
+                                                      .run(() -> {
+                                                          throw new RuntimeException("oops");
+                                                      }));
+    }
 }

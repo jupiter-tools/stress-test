@@ -12,7 +12,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 public class TestRunnerSettings {
     /**

@@ -1,5 +1,7 @@
 package com.jupiter.tools.stress.test.concurrency;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * Created on 13.09.2018.
  *
@@ -14,7 +16,7 @@ public enum ExecutionMode {
     PARALLEL_STREAM_MODE,
 
     /**
-     * use a {@link org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor} to run
+     * use a {@link ThreadPoolExecutor} to run
      * a test case in concurrent mode
      */
     EXECUTOR_MODE
