@@ -51,6 +51,7 @@ public class BenchmarkExtension implements BeforeAllCallback, AfterAllCallback {
         ProfilerExtension.getProfilerResult(context).forEach((method, timing) -> {
             if (timing.getDuration() < expectedResult) {
                 String fastestName = getExpectedFasterMethodName(context);
+
                 Assertions.fail("\n\nThe test method \"" + fastestName + "\" - is not fastest in this test suite.\n" +
                                 "Timing of the method \"" + method + "\" (" + timing.getDuration() + " " + timing
                                         .getTimeUnit().name() + ")" +
