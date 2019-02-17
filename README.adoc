@@ -5,9 +5,7 @@
 image:https://travis-ci.com/jupiter-tools/stress-test.svg?branch=master["Build Status", link="https://travis-ci.com/jupiter-tools/stress-test"]
 image:https://codecov.io/gh/jupiter-tools/stress-test/branch/master/graph/badge.svg[link ="https://codecov.io/gh/jupiter-tools/stress-test"]
 
-
-Tools which wrap the MockMvc in a simple matcher of HTTP responses,
-to write your REST-API tests in a more easy way.
+Tools to write stress tests and benchmarking with Junit5.
 
 ## Getting started
 
