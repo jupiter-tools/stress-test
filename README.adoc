@@ -98,6 +98,9 @@ class EnableTestBenchmarkTest {
 <2> mark as Fast method which you expect will be faster
 <3> set measurement and warm-up iterations
 
+Example of the benchmarking:
+image:./images/benchmark.gif[live benchmarking]
+
 If you measuring very fast methods (less than one milliseconds)
 you can use `MeasureUnit` annotation to set a unit of measurement profiling:
 
