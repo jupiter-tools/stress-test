@@ -72,7 +72,11 @@ public class StressTestRunner {
 	}
 
 	/**
-	 * Set threads count for EXECUTOR_MODE
+	 * Set threads count.
+	 * <p>
+	 * This setting work only with the {@link ExecutionMode#EXECUTOR_MODE},
+	 * if you use {@link ExecutionMode#PARALLEL_STREAM_MODE} then
+	 * you cannot be able to set a thread count.
 	 *
 	 * @param threadsCount count of threads for ThreadPoolTaskExecutor
 	 */
@@ -92,17 +96,26 @@ public class StressTestRunner {
 	}
 
 	/**
-	 * Set a time limit for test execution
+	 * Set a time limit for test execution.
+	 * <p>
+	 * This setting may works unpredicted with the {@link ExecutionMode#PARALLEL_STREAM_MODE},
+	 * if you need a more precise measurement please try to use {@link ExecutionMode#EXECUTOR_MODE}.
 	 *
 	 * @param duration after this interval test will fail if not complete
 	 * @param unit     measure unit for timeout
+	 * @return StressTestRunner
 	 */
 	public StressTestRunner timeout(int duration, TimeUnit unit) {
 		this.settings.setTimeout(new Duration(duration, unit));
 		return this;
 	}
 
-
+	/**
+	 * Don't catch uncaught exceptions in other threads.
+	 * This will not make the run statement fail if exceptions occur in other threads.
+	 *
+	 * @return StressTestRunner
+	 */
 	public StressTestRunner dontCatchUncaughtExceptions() {
 		this.settings.setDontCatchUncaughtExceptions(true);
 		return this;

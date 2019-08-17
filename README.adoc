@@ -20,7 +20,7 @@ You need to add a next dependency:
 </dependency>
 ----
 
-## Stress testing REST API
+### REST API stress testing
 
 Let's consider a simple web application :
 

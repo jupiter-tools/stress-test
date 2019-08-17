@@ -135,13 +135,13 @@ class StressTestRunnerTest {
 		Assertions.assertThrows(Exception.class,
 		                        () -> {
 			                        StressTestRunner.test()
-			                                        .iterations(10)
+			                                        .iterations(1000)
 			                                        .threads(1)
 			                                        .mode(ExecutionMode.PARALLEL_STREAM_MODE)
-			                                        .timeout(1, TimeUnit.SECONDS)
+			                                        .timeout(100, TimeUnit.MILLISECONDS)
 			                                        .run(() -> {
 				                                        System.out.println("RUN");
-				                                        Thread.sleep(1000);
+				                                        Thread.sleep(500);
 			                                        });
 		                        });
 	}
