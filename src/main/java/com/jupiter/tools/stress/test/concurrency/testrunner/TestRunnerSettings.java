@@ -28,4 +28,9 @@ public class TestRunnerSettings {
      * time limit to test execution
      */
     private Duration timeout;
+
+    /**
+     * if true then don't catch uncaught exceptions in other threads
+     */
+    private boolean dontCatchUncaughtExceptions;
 }

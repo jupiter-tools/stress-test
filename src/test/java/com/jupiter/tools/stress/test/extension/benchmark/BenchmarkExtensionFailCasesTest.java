@@ -3,6 +3,7 @@ package com.jupiter.tools.stress.test.extension.benchmark;
 import com.jupiter.tools.stress.test.extension.benchmark.annotation.EnableTestBenchmark;
 import com.jupiter.tools.stress.test.extension.benchmark.annotation.Fast;
 import com.jupiter.tools.stress.test.extension.benchmark.annotation.TestBenchmark;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.testkit.engine.EngineTestKit;
 

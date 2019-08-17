@@ -20,7 +20,7 @@ You need to add a next dependency:
 </dependency>
 ----
 
-## Stress testing REST API
+### REST API stress testing
 
 Let's consider a simple web application :
 
@@ -41,12 +41,12 @@ In this case, StressTestRunner provide you an ability to check synchronization o
 ----
 @Test
 void concurrentThreadsSubTasks() {
-    ConcurrentTestRunner.test()
-                        .mode(ExecutionMode.TASK_EXECUTOR_MODE)  <1>
-                        .timeout(5, TimeUnit.SECONDS) <2>
-                        .threads(4)   <3>
-                        .iterations(100)  <4>
-                        .run(this::createSubTaskSingleTest); <5>
+    StressTestRunner.test()
+                    .mode(ExecutionMode.TASK_EXECUTOR_MODE)  <1>
+                    .timeout(5, TimeUnit.SECONDS) <2>
+                    .threads(4)   <3>
+                    .iterations(100)  <4>
+                    .run(this::createSubTaskSingleTest); <5>
 }
 
 private void createSubTaskSingleTest() throws Exception {
