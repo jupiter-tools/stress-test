@@ -9,7 +9,7 @@ Tools to write stress tests and benchmarking with Junit5.
 
 ## Getting started
 
-You need to add a next dependency:
+You need to add the following dependency:
 
 [source, xml]
 ----
@@ -17,6 +17,7 @@ You need to add a next dependency:
     <groupId>com.jupiter-tools</groupId>
     <artifactId>stress-test</artifactId>
     <version>0.1</version>
+    <scope>test</scope>
 </dependency>
 ----
 
