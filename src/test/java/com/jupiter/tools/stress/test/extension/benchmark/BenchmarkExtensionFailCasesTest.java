@@ -3,7 +3,6 @@ package com.jupiter.tools.stress.test.extension.benchmark;
 import com.jupiter.tools.stress.test.extension.benchmark.annotation.EnableTestBenchmark;
 import com.jupiter.tools.stress.test.extension.benchmark.annotation.Fast;
 import com.jupiter.tools.stress.test.extension.benchmark.annotation.TestBenchmark;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.testkit.engine.EngineTestKit;
 
@@ -22,7 +21,7 @@ class BenchmarkExtensionFailCasesTest {
                 .engine("junit-jupiter")
                 .selectors(selectClass(BenchmarkExtensionFailCase.class))
                 .execute()
-                .containers()
+                .containerEvents()
                 .assertStatistics(s -> {
                     s.failed(1);
                 });
@@ -41,7 +40,7 @@ class BenchmarkExtensionFailCasesTest {
                 .engine("junit-jupiter")
                 .selectors(selectClass(BenchmarkExtensionFailCase.class))
                 .execute()
-                .tests()
+                .testEvents()
                 .assertStatistics(stats -> {
                     stats.started(fast.measurementIterations() +
                                   fast.warmupIterations() +
